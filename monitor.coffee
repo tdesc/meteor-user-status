@@ -27,6 +27,7 @@ lastActivityTime = undefined
 monitorDep = new Deps.Dependency
 idleDep = new Deps.Dependency
 activityDep = new Deps.Dependency
+locationDep = new Deps.Dependency
 
 focused = true
 url = ''
@@ -57,6 +58,8 @@ start = (settings) ->
   monitorId = Meteor.setInterval(monitor, interval)
   monitorDep.changed()
 
+  locationDep.changed()
+
   # Reset last activity; can't count inactivity from some arbitrary time
   unless lastActivityTime?
     lastActivityTime = Deps.nonreactive -> TimeSync.serverTime()
@@ -76,7 +79,7 @@ stop = ->
     idle = false
     idleDep.changed()
     # need to run this because the Deps below won't re-run when monitor is off
-    Meteor.call "user-status-active", Deps.nonreactive -> TimeSync.serverTime()
+    Meteor.call "user-status-active", url, Deps.nonreactive -> TimeSync.serverTime()
 
   return
 
@@ -121,10 +124,13 @@ lastActivity = ->
   return lastActivityTime
 
 Meteor.startup ->
-  url = getUrl()
+
   # Listen for mouse and keyboard events on window
   $(window).on "click keydown", -> monitor(true)
 
+  $(window).bind "hashchange", (e) ->
+    url = getUrl()
+    monitor()
   # catch window blur events when requested and where supported
   # We'll use jQuery here instead of window.blur so that other code can attach blur events:
   # http://stackoverflow.com/q/22415296/586086
@@ -145,7 +151,6 @@ Deps.autorun ->
   # Don't report idle state unless we're logged and we're monitoring
   return unless Meteor.userId() and isMonitoring()
 
-  url = getUrl()
   # XXX These will buffer across a disconnection - do we want that?
   # The idle report will result in a duplicate message (with below)
   # The active report will result in a null op.
