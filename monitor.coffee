@@ -44,7 +44,6 @@ start = (settings) ->
 
   settings = settings || {}
 
-  url = getUrl()
   # The amount of time before a user is marked idle
   MonitorInternals.idleThreshold = settings.threshold || 60000
 
@@ -109,10 +108,13 @@ touch = ->
   monitor(true) # Check for an idle state change right now
 
 isLocation = ->
+  console.log 'isLocation url ' + url
+  console.log 'location: ' + Session.get('location')
   if url != Session.get('location')
     url = getUrl()
     Session.set('location', url)
-  return
+    return true
+  return false
 
 isIdle = ->
   idleDep.depend()
