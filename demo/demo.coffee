@@ -1,7 +1,7 @@
 if Meteor.isClient
   @UserConnections = new Meteor.Collection("user_status_sessions")
 
-  Handlebars.registerHelper "userStatus", UserStatus
+  UI.registerHelper "userStatus", UserStatus
 
   relativeTime = (timeAgo) ->
     diff = moment.utc(TimeSync.serverTime() - timeAgo)

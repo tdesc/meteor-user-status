@@ -1,15 +1,8 @@
 {
   "packages": {
     "moment": {},
-    "bootboxjs": {},
-    "timesync": {
-      "path": "../../meteor-timesync"
-    },
-    "user-status": {
-      "path": ".."
-    },
-    "accounts-testing": {
-      "path": "../../../meteor-accounts-testing"
-    }
+    "bootstrap-3": {},
+    "accounts-testing": {},
+    "iron-router": {}
   }
 }

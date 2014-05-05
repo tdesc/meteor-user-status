@@ -3,16 +3,9 @@
   "dependencies": {
     "basePackages": {
       "moment": {},
-      "bootboxjs": {},
-      "timesync": {
-        "path": "../../meteor-timesync"
-      },
-      "user-status": {
-        "path": ".."
-      },
-      "accounts-testing": {
-        "path": "../../../meteor-accounts-testing"
-      }
+      "bootstrap-3": {},
+      "accounts-testing": {},
+      "iron-router": {}
     },
     "packages": {
       "moment": {
@@ -20,24 +13,25 @@
         "tag": "v2.6.0",
         "commit": "26156df681750fd6e6ed77043eef32b6653ebbdf"
       },
-      "bootboxjs": {
-        "git": "https://github.com/TimHeckel/meteor-bootboxjs.git",
-        "tag": "v4.2.0",
-        "commit": "2b7d18ad028d9e7b37238ecf2a8a7970735cebd1"
-      },
-      "timesync": {
-        "path": "../../meteor-timesync"
-      },
-      "user-status": {
-        "path": ".."
-      },
-      "accounts-testing": {
-        "path": "../../../meteor-accounts-testing"
-      },
       "bootstrap-3": {
         "git": "https://github.com/mangasocial/meteor-bootstrap-3.git",
         "tag": "v3.1.1-1",
         "commit": "63dd38968828bb8963636df93e9a1c45e2dfe67e"
+      },
+      "accounts-testing": {
+        "git": "https://github.com/mizzao/meteor-accounts-testing.git",
+        "tag": "v0.1.0",
+        "commit": "9dc6839693aced99e11ad66f05851a3cac718d26"
+      },
+      "iron-router": {
+        "git": "https://github.com/EventedMind/iron-router.git",
+        "tag": "v0.7.1",
+        "commit": "d1ffb3f06ea4c112132b030f2eb1a70b81675ecb"
+      },
+      "blaze-layout": {
+        "git": "https://github.com/EventedMind/blaze-layout.git",
+        "tag": "v0.2.4",
+        "commit": "b40e9b0612329288d75cf52ad14a7da64bb8618f"
       }
     }
   }

@@ -1,11 +1,27 @@
 <head>
-  <title>User-Status Demonstration and Testing</title>
+    <title>Test App</title>
 </head>
 
 <body>
-<a href="https://github.com/mizzao/meteor-user-status">
-    <img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub">
-</a>
+</body>
+
+<template name="layout">
+    {{> yield}}
+</template>
+
+<template name="loading">
+    <h1>Loading...</h1>
+</template>
+
+<template name="not_found">
+    <h3>404 - Not found</h3>
+</template>
+
+<template name="main">
+    <h3>Main page</h3>
+</template>
+
+<template name="test">
 <div class="container">
     <div class="row">
         <div class="col-md-4 well">
@@ -27,7 +43,7 @@
         </div>
     </div>
 </div>
-</body>
+</template>
 
 <template name="login">
     {{#if loggedIn}}

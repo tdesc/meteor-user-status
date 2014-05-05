@@ -29,6 +29,14 @@ idleDep = new Deps.Dependency
 activityDep = new Deps.Dependency
 
 focused = true
+url = ''
+
+getUrl = ->
+  c=window.location.pathname
+  console.log c
+  b=c.slice(0,-1)
+  a=c.slice(-1)
+  if b=="" then return "/" else if a=="/" then return b else return c;
 
 start = (settings) ->
   throw new Error("Can't start idle monitor until synced to server") unless TimeSync.isSynced()
@@ -113,6 +121,7 @@ lastActivity = ->
   return lastActivityTime
 
 Meteor.startup ->
+  url = getUrl()
   # Listen for mouse and keyboard events on window
   $(window).on "click keydown", -> monitor(true)
 
@@ -134,7 +143,7 @@ Meteor.startup ->
 # Report idle status whenever connection changes
 Deps.autorun ->
   # Don't report idle state unless we're logged and we're monitoring
-  return unless Meteor.userId() and isMonitoring()
+  return unless this.userId() and isMonitoring()
 
   # XXX These will buffer across a disconnection - do we want that?
   # The idle report will result in a duplicate message (with below)
@@ -143,7 +152,7 @@ Deps.autorun ->
     Meteor.call "user-status-idle", lastActivityTime
   else
     # If we were inactive, report that we are active again to the server
-    Meteor.call "user-status-active", lastActivityTime
+    Meteor.call "user-status-active", url, lastActivityTime
   return
 
 # If we reconnect and we were idle, make sure we send that upstream

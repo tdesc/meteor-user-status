@@ -185,12 +185,13 @@ Meteor.methods
     idleSession(@userId, @connection.id, new Date(timestamp))
     return
 
-  "user-status-active": (timestamp) ->
+  "user-status-active": (url, timestamp) ->
     return unless @userId
     # We only use timestamp because it's when we saw activity *on the client*
     # as opposed to just being notified it.
     # It is probably more accurate even if a few hundred ms off
     # due to how long the message took to get here.
+    console.log 'user-status-active: ' + url
     activeSession(@userId, @connection.id, new Date(timestamp))
     return
 

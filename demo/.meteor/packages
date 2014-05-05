@@ -6,8 +6,9 @@
 standard-app-packages
 insecure
 coffeescript
+bootstrap-3
+bootboxjs
 accounts-testing
-user-status
 timesync
 moment
-bootboxjs
+iron-router
