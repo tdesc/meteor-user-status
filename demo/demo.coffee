@@ -101,6 +101,14 @@ if Meteor.isServer
   # (https://github.com/oortcloud/unofficial-meteor-faq)
   process.env.HTTP_FORWARDED_COUNT = 1
 
+  UserStatus.events.on "connectionLogout", (advice) ->
+    console.log 'DEMO on connectionLogout ' + advice.userId
+    return
+
+  UserStatus.events.on "connectionActive", (advice) ->
+    console.log 'DEMO on connectionActive ' + advice.url
+    return
+
   Meteor.publish null, ->
     [
       Meteor.users.find { "status.online": true }, # online users only
@@ -109,3 +117,10 @@ if Meteor.isServer
           username: 1
       UserStatus.connections.find()
     ]
+
+  UserStatus.connections.find().observeChanges ->
+    added:(id, fields)->
+      console.log 'observeChanges'
+      console.log id
+      console.log fields
+

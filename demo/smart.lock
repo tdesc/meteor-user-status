@@ -5,7 +5,11 @@
       "moment": {},
       "bootstrap-3": {},
       "accounts-testing": {},
-      "iron-router": {}
+      "iron-router": {},
+      "user-status": {
+        "git": "https://github.com/tdesc/meteor-user-status.git",
+        "branch": "master"
+      }
     },
     "packages": {
       "moment": {
@@ -28,10 +32,20 @@
         "tag": "v0.7.1",
         "commit": "d1ffb3f06ea4c112132b030f2eb1a70b81675ecb"
       },
+      "user-status": {
+        "git": "https://github.com/tdesc/meteor-user-status.git",
+        "branch": "master",
+        "commit": "65a97fab05e60d00a2b6fe7a50fcbf95a2107c8d"
+      },
       "blaze-layout": {
         "git": "https://github.com/EventedMind/blaze-layout.git",
         "tag": "v0.2.4",
         "commit": "b40e9b0612329288d75cf52ad14a7da64bb8618f"
+      },
+      "timesync": {
+        "git": "https://github.com/mizzao/meteor-timesync.git",
+        "tag": "v0.1.6",
+        "commit": "83067433f511bc13a11ae8c87e9a4d331256915e"
       }
     }
   }

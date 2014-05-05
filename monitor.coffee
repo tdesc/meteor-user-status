@@ -143,7 +143,7 @@ Meteor.startup ->
 # Report idle status whenever connection changes
 Deps.autorun ->
   # Don't report idle state unless we're logged and we're monitoring
-  return unless this.userId() and isMonitoring()
+  return unless Meteor.userId() and isMonitoring()
 
   # XXX These will buffer across a disconnection - do we want that?
   # The idle report will result in a duplicate message (with below)

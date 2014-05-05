@@ -131,14 +131,15 @@ idleSession = (userId, connectionId, date) ->
     lastActivity: date
   return
 
-activeSession = (userId, connectionId, date) ->
+activeSession = (userId, connectionId, url, date) ->
   UserConnections.update connectionId,
-    $set: { idle: false }
+    $set: { idle: false, url: url }
     $unset: { lastActivity: null }
 
   statusEvents.emit "connectionActive",
     userId: userId
     connectionId: connectionId
+    url : url
     lastActivity: date
   return
 
