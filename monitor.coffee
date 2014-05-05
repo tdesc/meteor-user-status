@@ -108,8 +108,9 @@ touch = ->
   monitor(true) # Check for an idle state change right now
 
 isLocation = ->
-  locationDep.depend()
-  return url
+  if( location.pathname != Session.get('location'))
+    Session.set('location', location.pathname)
+  return
 
 isIdle = ->
   idleDep.depend()
@@ -129,10 +130,7 @@ Meteor.startup ->
   # Listen for mouse and keyboard events on window
   $(window).on "click keydown", -> monitor(true)
 
-  $(window).bind "hashchange", () ->
-    url = getUrl()
-    console.log 'hashchange '+ url
-    locationDep.changed()
+  Session.set('location', getUrl())
 
   # catch window blur events when requested and where supported
   # We'll use jQuery here instead of window.blur so that other code can attach blur events:
@@ -158,7 +156,7 @@ Deps.autorun ->
   # The idle report will result in a duplicate message (with below)
   # The active report will result in a null op.
   if isLocation()
-    Meteor.call "user-status-location", url
+    Meteor.call "user-status-location", Session.get('location')
 
   if isIdle()
     Meteor.call "user-status-idle", lastActivityTime
