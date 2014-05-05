@@ -34,7 +34,6 @@ url = ''
 
 getUrl = ->
   c=window.location.pathname
-  console.log 'function call getUrl' + c
   b=c.slice(0,-1)
   a=c.slice(-1)
   if b=="" then return "/" else if a=="/" then return b else return c;
@@ -57,8 +56,6 @@ start = (settings) ->
   # Set new monitoring interval
   monitorId = Meteor.setInterval(monitor, interval)
   monitorDep.changed()
-
-  locationDep.changed()
 
   # Reset last activity; can't count inactivity from some arbitrary time
   unless lastActivityTime?
@@ -110,6 +107,10 @@ touch = ->
     return
   monitor(true) # Check for an idle state change right now
 
+isLocation = ->
+  locationDep.depend()
+  return url
+
 isIdle = ->
   idleDep.depend()
   return idle
@@ -128,9 +129,11 @@ Meteor.startup ->
   # Listen for mouse and keyboard events on window
   $(window).on "click keydown", -> monitor(true)
 
-  $(window).bind "hashchange", (e) ->
+  $(window).bind "hashchange", () ->
     url = getUrl()
-    monitor()
+    console.log 'hashchange '+ url
+    locationDep.changed()
+
   # catch window blur events when requested and where supported
   # We'll use jQuery here instead of window.blur so that other code can attach blur events:
   # http://stackoverflow.com/q/22415296/586086
@@ -154,6 +157,9 @@ Deps.autorun ->
   # XXX These will buffer across a disconnection - do we want that?
   # The idle report will result in a duplicate message (with below)
   # The active report will result in a null op.
+  if isLocationChanged()
+    Meteor.call "user-status-location", url
+
   if isIdle()
     Meteor.call "user-status-idle", lastActivityTime
   else

@@ -186,6 +186,15 @@ Meteor.methods
     idleSession(@userId, @connection.id, new Date(timestamp))
     return
 
+  "user-status-location": (url) ->
+    console.log 'SERVER: user-status-location ' + url
+
+    statusEvents.emit "locationChanged",
+      userId: @userId
+      connectionId: @connectionId
+      url : url
+    return
+
   "user-status-active": (url, timestamp) ->
     return unless @userId
     # We only use timestamp because it's when we saw activity *on the client*
