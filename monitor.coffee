@@ -157,7 +157,7 @@ Deps.autorun ->
   # XXX These will buffer across a disconnection - do we want that?
   # The idle report will result in a duplicate message (with below)
   # The active report will result in a null op.
-  if isLocationChanged()
+  if isLocation()
     Meteor.call "user-status-location", url
 
   if isIdle()
