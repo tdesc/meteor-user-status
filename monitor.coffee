@@ -33,7 +33,7 @@ url = ''
 
 getUrl = ->
   c=window.location.pathname
-  console.log c
+  console.log 'function call getUrl' + c
   b=c.slice(0,-1)
   a=c.slice(-1)
   if b=="" then return "/" else if a=="/" then return b else return c;
@@ -145,6 +145,7 @@ Deps.autorun ->
   # Don't report idle state unless we're logged and we're monitoring
   return unless Meteor.userId() and isMonitoring()
 
+  url = getUrl()
   # XXX These will buffer across a disconnection - do we want that?
   # The idle report will result in a duplicate message (with below)
   # The active report will result in a null op.
