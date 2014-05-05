@@ -44,6 +44,7 @@ start = (settings) ->
 
   settings = settings || {}
 
+  url = getUrl()
   # The amount of time before a user is marked idle
   MonitorInternals.idleThreshold = settings.threshold || 60000
 
@@ -108,8 +109,8 @@ touch = ->
   monitor(true) # Check for an idle state change right now
 
 isLocation = ->
-  if( location.pathname != Session.get('location'))
-    Session.set('location', location.pathname)
+  if( url != getUrl())
+    Session.set('location', url)
   return
 
 isIdle = ->
@@ -155,8 +156,8 @@ Deps.autorun ->
   # XXX These will buffer across a disconnection - do we want that?
   # The idle report will result in a duplicate message (with below)
   # The active report will result in a null op.
-  if isLocation()
-    Meteor.call "user-status-location", Session.get('location')
+#  if isLocation()
+  Meteor.call "user-status-location", Session.get('location')
 
   if isIdle()
     Meteor.call "user-status-idle", lastActivityTime
