@@ -108,10 +108,10 @@ touch = ->
   monitor(true) # Check for an idle state change right now
 
 isLocation = ->
+  url =  getUrl()
   console.log 'isLocation url ' + url
   console.log 'location: ' + Session.get('location')
-  if url != Session.get('location')
-    url = getUrl()
+  if  url != Session.get('location')
     Session.set('location', url)
     return true
   return false
