@@ -192,8 +192,7 @@ Meteor.methods
     # as opposed to just being notified it.
     # It is probably more accurate even if a few hundred ms off
     # due to how long the message took to get here.
-    console.log 'user-status-active: ' + url
-    activeSession(@userId, @connection.id, new Date(timestamp))
+    activeSession(@userId, @connection.id, url, new Date(timestamp))
     return
 
 # Exported variable

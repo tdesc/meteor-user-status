@@ -6,7 +6,7 @@
     "iron-router": {},
     "user-status": {
         "git": "https://github.com/tdesc/meteor-user-status.git",
-        "commit": "65a97fab05e60d00a2b6fe7a50fcbf95a2107c8d"
+        "commit": "523b6368dd4e3e2fbf7bd63c4db577b5523edaf8"
     }
   }
 }

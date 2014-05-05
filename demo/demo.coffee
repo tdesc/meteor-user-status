@@ -106,7 +106,7 @@ if Meteor.isServer
     return
 
   UserStatus.events.on "connectionActive", (advice) ->
-    console.log 'DEMO on connectionActive ' + advice.url
+    console.log 'DEMO on connectionActive' + advice.url
     return
 
   Meteor.publish null, ->
