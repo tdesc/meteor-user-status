@@ -89,11 +89,13 @@ Meteor.startup ->
   Local session modifification functions - also used in testing
 ###
 
-addSession = (userId, connectionId, date, ipAddr) ->
+addSession = (userId, connectionId, url, date, ipAddr) ->
+  console.log 'addSession ' + 'userId ' + userId + ' url ' + url
   UserConnections.upsert connectionId,
     $set: {
       userId: userId
       ipAddr: ipAddr
+      url: url
       loginTime: date
     }
 
@@ -160,7 +162,7 @@ Meteor.publish null, ->
 
   connection = @_session.connectionHandle
   connectionId = @_session.id # same as connection.id
-
+  console.log '#Meteor.publish url ' + url
   # Untrack connection on logout
   unless userId?
     # TODO: this could be replaced with a findAndModify once it's supported on Collections
@@ -171,7 +173,7 @@ Meteor.publish null, ->
     return null
 
   # Add socket to open connections
-  addSession(userId, connectionId, date, connection.clientAddress)
+  addSession(userId, connectionId, date, url, connection.clientAddress)
 
   # Remove socket on close
   @_session.socket.on "close", Meteor.bindEnvironment ->
