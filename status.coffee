@@ -105,6 +105,7 @@ addSession = (userId, connectionId, date, ipAddr) ->
   return
 
 removeSession = (userId, connectionId, url, date) ->
+  console.log 'removeSession ' + 'userId ' + userId + ' url ' + url
   conn = UserConnections.findOne(connectionId)
   # Don't emit this again if the connection was already closed
   return unless conn?
