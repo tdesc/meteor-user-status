@@ -109,8 +109,8 @@ touch = ->
 
 isLocation = ->
   url =  getUrl()
-  console.log 'isLocation url ' + url
-  console.log 'location: ' + Session.get('location')
+#  console.log 'isLocation url ' + url
+#  console.log 'location: ' + Session.get('location')
   if  url != Session.get('location')
     Session.set('location', url)
     return true

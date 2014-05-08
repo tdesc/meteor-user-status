@@ -104,7 +104,7 @@ addSession = (userId, connectionId, date, ipAddr) ->
     loginTime: date
   return
 
-removeSession = (userId, connectionId, date) ->
+removeSession = (userId, connectionId, url, date) ->
   conn = UserConnections.findOne(connectionId)
   # Don't emit this again if the connection was already closed
   return unless conn?
@@ -115,6 +115,7 @@ removeSession = (userId, connectionId, date) ->
     userId: userId
     connectionId: connectionId
     lastActivity: conn?.lastActivity # If this connection was idle, pass the last activity we saw
+    url: url
     logoutTime: date
   return
 
@@ -153,6 +154,7 @@ Meteor.publish null, ->
 
   date = new Date() # compute this as early as possible
   userId = @_session.userId
+  url =@_session.url;
   return null unless @_session.socket? # Or there is nothing to close!
 
   connection = @_session.connectionHandle
@@ -164,7 +166,7 @@ Meteor.publish null, ->
     existing = UserConnections.findOne(connectionId)
     return null unless existing? # Probably new session
 
-    removeSession(existing.userId, connectionId, date)
+    removeSession(existing.userId, connectionId, url, date)
     return null
 
   # Add socket to open connections
@@ -172,7 +174,7 @@ Meteor.publish null, ->
 
   # Remove socket on close
   @_session.socket.on "close", Meteor.bindEnvironment ->
-    removeSession(userId, connectionId, new Date())
+    removeSession(userId, connectionId, url, new Date())
   , (e) ->
     Meteor._debug "Exception from connection close callback:", e
   return null
