@@ -89,13 +89,11 @@ Meteor.startup ->
   Local session modifification functions - also used in testing
 ###
 
-addSession = (userId, connectionId, url, date, ipAddr) ->
-  console.log 'addSession ' + 'userId ' + userId + ' url ' + url
+addSession = (userId, connectionId, date, ipAddr) ->
   UserConnections.upsert connectionId,
     $set: {
       userId: userId
       ipAddr: ipAddr
-      url: url
       loginTime: date
     }
 
@@ -106,8 +104,7 @@ addSession = (userId, connectionId, url, date, ipAddr) ->
     loginTime: date
   return
 
-removeSession = (userId, connectionId, url, date) ->
-  console.log 'removeSession ' + 'userId ' + userId + ' url ' + url
+removeSession = (userId, connectionId, date) ->
   conn = UserConnections.findOne(connectionId)
   # Don't emit this again if the connection was already closed
   return unless conn?
@@ -118,7 +115,6 @@ removeSession = (userId, connectionId, url, date) ->
     userId: userId
     connectionId: connectionId
     lastActivity: conn?.lastActivity # If this connection was idle, pass the last activity we saw
-    url: url
     logoutTime: date
   return
 
@@ -162,7 +158,6 @@ Meteor.publish null, ->
 
   connection = @_session.connectionHandle
   connectionId = @_session.id # same as connection.id
-  console.log '#Meteor.publish url ' + url
   # Untrack connection on logout
   unless userId?
     # TODO: this could be replaced with a findAndModify once it's supported on Collections
@@ -173,11 +168,11 @@ Meteor.publish null, ->
     return null
 
   # Add socket to open connections
-  addSession(userId, connectionId, date, url, connection.clientAddress)
+  addSession(userId, connectionId, date, connection.clientAddress)
 
   # Remove socket on close
   @_session.socket.on "close", Meteor.bindEnvironment ->
-    removeSession(userId, connectionId, url, new Date())
+    removeSession(userId, connectionId, new Date())
   , (e) ->
     Meteor._debug "Exception from connection close callback:", e
   return null
